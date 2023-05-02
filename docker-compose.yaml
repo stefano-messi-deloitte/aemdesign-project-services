@@ -23,15 +23,11 @@ services:
       - TZ
       - AEM_RUNMODE=-Dsling.run.modes=author,crx3,crx3tar,dev,dynamicmedia_scene7,nosamplecontent
       - AEM_JVM_OPTS=-server -Xms248m -Xmx4524m -XX:MaxDirectMemorySize=256M -XX:+CMSClassUnloadingEnabled -Djava.awt.headless=true -Dorg.apache.felix.http.host=0.0.0.0 -Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:58242
-      # - AEM_START_OPTS=start -c /aem/crx-quickstart -i launchpad -p 8080 -a 0.0.0.0 -Dsling.properties=conf/sling.properties  -D oak.mongo.uri=${MONGO_URI}
+      - AEM_PROXY_HOST=proxy
     volumes:
       - author-data:/aem/crx-quickstart/repository
-      # keep track of all assets in a volume
-      # - author-data:/aem/crx-quickstart/repository/datastore
     depends_on:
       - traefik
-      # - mongo
-      # - mongoui
     labels:
       # note that you want this frontened to match the last. otherwise it will match login.${HOST_DOMAIN}"
       traefik.frontend.priority: 1
@@ -75,6 +71,7 @@ services:
       - TZ
       - AEM_RUNMODE=-Dsling.run.modes=publish,crx3,crx3tar,dev,dynamicmedia_scene7,nosamplecontent
       - AEM_JVM_OPTS=-server -Xms248m -Xmx1524m -XX:MaxDirectMemorySize=256M -XX:+CMSClassUnloadingEnabled -Djava.awt.headless=true -Dorg.apache.felix.http.host=0.0.0.0 -Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:58242
+      - AEM_PROXY_HOST=proxy
     labels:
       # note that you want this frontend to match the last. otherwise, it will match login.${HOST_DOMAIN}"
       traefik.frontend.priority: 2
@@ -243,72 +240,6 @@ services:
       - ./services/traefik/certs:/certs
   ##########################################################
   # TRAEFIK END
-  ##########################################################
-
-
-  ##########################################################
-  # MONGO START
-  ##########################################################
-#  mongo:
-#    image: ${MONGO_IMAGE}
-#    restart: always
-#    hostname: mongo
-#    security_opt:
-#      - no-new-privileges:true
-#    volumes:
-#      - authormongo-data:/data
-#    environment:
-#      - TZ
-#    #      - MONGO_URI
-#    #      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
-#    #      - MONGO_INITDB_ROOT_PASSWORD=$(MONGO_PASSWORD)
-#    depends_on:
-#      - traefik
-#    labels:
-#      traefik.frontend.priority: 1
-#      traefik.enable: true
-#      traefik.backend: mongo
-##      traefik.tcp.routers.mongo.rule: HostSNI(`*`)
-##      traefik.tcp.routers.mongo.entrypoints: mongo
-##      traefik.tcp.routers.mongo.service: mongo
-##      traefik.tcp.services.mongo.loadbalancer.server.port: 27017
-##      traefik.tcp.routers.mongo.middlewares: localhost-ip-whitelist@docker
-#    networks:
-#      - mongo-network
-#      - internal
-#
-#  mongoui:
-#    image: ${MONGOUI_IMAGE}
-#    restart: unless-stopped
-#    hostname: mongoui
-#    security_opt:
-#      - no-new-privileges:true
-#    environment:
-#      - TZ
-#      - ME_CONFIG_MONGODB_SERVER=${MONGO_HOST}
-#    #      - ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGO_USERNAME}
-#    #      - ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGO_PASSWORD}
-#    #      - ME_CONFIG_MONGODB_URL=${MONGO_URI}
-#    #      - ME_CONFIG_MONGODB_URL="mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}?directConnection=true"
-#    labels:
-#      # note that you want this frontened to match the last. otherwise it will match login.${HOST_DOMAIN}"
-#      traefik.frontend.priority: 1
-#      traefik.enable: true
-#      traefik.http.routers.mongoui.rule: "Host(`${MONGOUI_HOST}`)"
-#      traefik.http.routers.mongoui.entrypoints: web
-#      traefik.http.routers.mongoui_https.rule: "Host(`${MONGOUI_HOST}`)"
-#      traefik.http.routers.mongoui_https.tls: true
-#      traefik.http.routers.mongoui_https.entrypoints: websecure
-#      traefik.http.services.mongoui.loadbalancer.server.port: 8081
-#      traefik.http.services.mongoui.loadbalancer.passHostHeader: true
-#    depends_on:
-#      - traefik
-#      - mongo
-#    networks:
-#      - mongo-network
-#      - internal
-  ##########################################################
-  # MONGO END
   ##########################################################
 
   ##########################################################
