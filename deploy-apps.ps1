@@ -1,0 +1,1 @@
+mvn clean install -pl ui.frontend -pl ui.apps -PautoInstallPackage -DskipTests=true

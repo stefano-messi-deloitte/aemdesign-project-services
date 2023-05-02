@@ -1,0 +1,4 @@
+
+# need to ignore the following files to avoid conflicts on windows.
+src/conf.d/enabled_vhosts/default.vhost
+src/conf.dispatcher.d/enabled_farms/default.farm
