@@ -626,6 +626,56 @@ Function PackageGetFilters
 
 }
 
+
+Function SetEnvVar
+{
+  [Cmdletbinding()]
+  param
+  (
+    [Parameter(ValueFromPipeline)]
+    [string]$VAR = $args[0],
+    [string]$VALUE = $args[1]
+  )
+
+#  Write-Host "Setting $VAR to ${VALUE}"
+
+  $CURRENT_VAR = ( Get-ChildItem env:${VAR} -ErrorAction SilentlyContinue )
+  if ( $CURRENT_VAR ) {
+    $CURRENT = ( Get-ChildItem env:${VAR} ).value
+
+#    Write-Host "Current ${VAR}=$CURRENT"
+  }
+  New-Item env:${VAR} -Value "${VALUE}" -Force | Out-Null
+
+  if ( $CURRENT_VAR ) {
+    $CURRENT = ( Get-ChildItem env:${VAR} ).value
+
+#    Write-Host "New ${VAR}=$CURRENT"
+  }
+
+}
+
+# load all environment variables from .env file
+Get-Content .env | ForEach-Object {
+  $name, $value = $_.split('=')
+#  Write-Host "- $name"
+  $isEmpty = [string]::IsNullOrWhiteSpace($name)
+  $isComment = $name.StartsWith('#')
+#  Write-Host $isEmpty
+#  Write-Host $isComment
+
+  if (($isEmpty) -or ($isComment)) {
+#    Write-Host "Skip: $name"
+  } else {
+#    Write-Host "Setting environment variable: $name=$value"
+    SetEnvVar "$name" "$value"
+  }
+}
+
+# Output all environment variables
+#Get-ChildItem env: | sort-object name | Format-Table -AutoSize
+
+
 [string]$FUNCTIONS_URI = "https://github.com/aem-design/aemdesign-docker/releases/latest/download/functions.ps1"
 
 # set global variables
@@ -638,6 +688,7 @@ $LOG_FILENAME = "$SOURCE_PATH_LIST$(DateStamp).log"
 $LOG_RESULT_FILENAME = "$SOURCE_PATH_LIST$(DateStamp).result.log"
 $LOG_CURL_FILENAME = "$SOURCE_PATH_LIST$(DateStamp).curl.log"
 $LOG_PARALLEL_FILENAME = "./logs/$SOURCE_PATH_LIST$(DateStamp).parallel.log"
+
 
 # include global helper functions
 . ([Scriptblock]::Create((([System.Text.Encoding]::ASCII).getString((Invoke-WebRequest -Uri "${FUNCTIONS_URI}").Content))))

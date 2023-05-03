@@ -2,7 +2,7 @@ Param(
     [string]$LOCAL_TOKEN = (Get-Content "local-token.txt"),
     [string]$LOCAL_AEM_HOST_HEADER = "-H ""Authorization: Basic ${LOCAL_TOKEN}""",
     [string]$LOCAL_AEM_HOST_URL = "https://author.localhost",
-    [string]$DESTINATION_AEM_TOKEN = (Get-Content "dev-token.txt" | ConvertFrom-Json).accessToken,
+    [string]$DESTINATION_AEM_TOKEN = (Get-Content "dev-token.json" | ConvertFrom-Json).accessToken,
     [string]$DESTINATION_AEM_HOST_URL = "https://author-p99999-e999999.adobeaemcloud.com",
     [string]$DESTINATION_AEM_HOST_HEADER = "-H ""Authorization: Bearer ${DESTINATION_AEM_TOKEN}""",
     [string]$DESTINATION_AEM_HOST_TEST_URL = "https://publish-p99999-e999999.adobeaemcloud.com",

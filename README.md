@@ -203,6 +203,17 @@ This will stop stack remove all registered containers and clear all docker volum
 
 ## Push to Adobe SaaS
 
+This step is optional if you are using your own git to manage code updates. In this setup you will be doing all development on your own git and push to Adobe when you are ready. For many reasons pushing from a developers desktop to Adobe SaaS not a best practice, but if you need to push to Adobe SaaS you can do it. 
+
+For best practice you should use CI/CD pipeline to push to Adobe SaaS after you have merged your PR into master or develop branch.
+
+On your local before pushing to Adobe SaaS you need to add remotes for your environment.
+
+```powershell
+git remote add develop_adobe https://${GIT_REPO_ADOBE_AUTH}git.cloudmanager.adobe.com/${ADOBE_PROGRAM_NAME}/${ADOBE_PROGRAM_LOCATION}/
+git remote add master_adobe https://${GIT_REPO_ADOBE_AUTH}git.cloudmanager.adobe.com/${ADOBE_PROGRAM_NAME}/${ADOBE_PROGRAM_LOCATION}/
+```
+
 To push the project to Adobe SaaS, run the following command:
 
 ```powershell
