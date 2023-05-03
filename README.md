@@ -244,7 +244,28 @@ mvn clean install
 mvn -B org.apache.maven.plugins:maven-archetype-plugin:3.2.1:generate -D archetypeGroupId=com.adobe.aem -D archetypeArtifactId=aem-project-archetype -D archetypeVersion=29 -D appTitle="AEM.Design" -D appId="aemdesign" -D groupId="design.aem" -D aemVersion=cloud
 ```
 
+If you get an error like:
+
+```text
+[ERROR] groovy.lang.GroovyRuntimeException: Conflicting module versions. Module [groovy-all is loaded in version 2.4.16 and you are trying to load version 2.4.8
+```
+
+Run the following to ensure you have the correct version of Groovy:
+
+```powershell
 mvn org.apache.maven.plugins:maven-dependency-plugin:2.1:get -DrepoUrl=https://repo.maven.apache.org/maven2/ -Dartifact=org.codehaus.groovy:groovy-all:2.4.8
+```
+
+Then update `%USERPROFILE%\.m2\repository\org\apache\maven\archetype\archetype-common\3.2.1\archetype-common-3.2.1.pom` by updating `groovy-all` dependency to version `2.4.8`:
+
+```xml
+<dependency>
+  <groupId>org.codehaus.groovy</groupId>
+  <artifactId>groovy-all</artifactId>
+  <version>2.4.8</version>
+  <scope>compile</scope>
+</dependency>
+```
 
 ## Environment Configuration
 
