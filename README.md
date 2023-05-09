@@ -377,3 +377,34 @@ GIT_REPO_ADOBE="https://${GIT_REPO_ADOBE_AUTH}git.cloudmanager.adobe.com/${ADOBE
 GIT_REPO_ADOBE_ICON="fa-adobe"
 GIT_REPO_ADOBE_TITLE="Adobe Git"
 ```
+
+## Files
+
+- .env (environment variables auto loaded by functions.ps1)
+- .gitignore (git ignore file)
+- deploy-apps.ps1 (only deplopy apps module)
+- deploy.all.ps1 (deploy all packages as single package to author and publish)
+- deploy.frontend.ps1 (only deploy apps and frontend module)
+- deploy.ps1 (deploy script)
+- dev-token.json (json file with your Adobe IMS token)
+- docker-compose.yaml (docker compose file)
+- functions.ps1 (helper functions)
+- install_packages.ps1 (auto install packages to author and publish using package.ps1)
+- local-token.txt (text file with admin:admin in base64)
+- package-install.txt (list of packages to auto install)
+- package.ps1 (papckage install script)
+- push-develop.ps1 (pushes to adobe saas remote develop branch)
+- README.md (additional information about the project)
+- reset.ps1 (resets the project by deleting all volumes and containers)
+- start.ps1 (starts the doscker stack)
+
+### Dispatcher file
+
+Update these files to match your project, make new files for each vhost where relevant.
+
+- dispatcher/src/conf.d/available_vhosts/default.vhost (customize for each vhost you have)
+- dispatcher/src/conf.d/variables/custom.vars (one place for all of your variables)
+- dispatcher/src/conf.d/rewrites/rewrite.rules (customize for each vhost you have)
+- dispatcher/src/conf.dispatcher.d/filters/filters.any (customize for each vhost you have)
+- dispatcher/src/conf.dispatcher.d/available_farms/default.farm ( for SaaS you don't need to modify, customize for each farm you have)
+- dispatcher/scripts/fix-symlinks.sh (add each enabled vhost and farm)
