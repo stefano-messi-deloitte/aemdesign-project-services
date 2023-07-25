@@ -252,7 +252,7 @@ mvn clean install
 ## Generate This project
 
 ```powershell
-mvn -B org.apache.maven.plugins:maven-archetype-plugin:3.2.1:generate -D archetypeGroupId=com.adobe.aem -D archetypeArtifactId=aem-project-archetype -D archetypeVersion=29 -D appTitle="AEM.Design" -D appId="aemdesign" -D groupId="design.aem" -D aemVersion=cloud
+mvn -B org.apache.maven.plugins:maven-archetype-plugin:3.2.1:generate -D archetypeGroupId=com.adobe.aem -D archetypeArtifactId=aem-project-archetype -D archetypeVersion=43 -D appTitle="AEM.Design" -D appId="aemdesign" -D groupId="design.aem" -D aemVersion=cloud -D country=au -D singleCountry=n -D includeExamples=y -D includeErrorHandler=y
 ```
 
 If you get an error like:
